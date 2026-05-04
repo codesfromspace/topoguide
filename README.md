@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🗺️ TopoGuide (Topografický průvodce knihami)
 
-## Getting Started
+Interaktivní webová aplikace, která pomocí umělé inteligence (Google Gemini) vyhledává geografické lokace ze zadaných knih a vykresluje trasu hlavního hrdiny na reálné mapě.
 
-First, run the development server:
+## Funkce
+- AI extrakce lokací a děje z knihy
+- Automatický odhad GPS souřadnic
+- Interaktivní mapa trasy (Leaflet)
+- Chronologický itinerář
 
+## Technologie
+- Next.js 15 (App Router)
+- React
+- Tailwind CSS
+- react-leaflet (Mapy OpenStreetMap)
+- Google GenAI SDK (Gemini 2.5 Flash)
+
+## Lokální spuštění
+
+1. Klonujte repozitář
+2. Nainstalujte závislosti:
+```bash
+npm install
+```
+3. Vytvořte soubor `.env.local` v kořenovém adresáři a vložte svůj API klíč:
+```env
+GEMINI_API_KEY=vas_klic_zde
+```
+4. Spusťte vývojový server:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Aplikace poběží na [http://localhost:3000](http://localhost:3000).
