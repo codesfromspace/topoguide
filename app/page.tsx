@@ -162,6 +162,21 @@ export default function Home() {
                     <span className="text-[10px] font-bold uppercase tracking-widest text-purple-400 block mb-1">Pohled hrdiny</span>
                     <p className="text-sm text-gray-300">{loc.what_hero_sees}</p>
                   </div>
+                  {loc.interesting_fact && (
+                    <div className="bg-[#0f1117]/50 p-3 rounded-lg border border-yellow-500/20">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-yellow-400 block mb-1">Zajímavost</span>
+                      <p className="text-sm text-gray-300 italic">{loc.interesting_fact}</p>
+                    </div>
+                  )}
+                  <a 
+                    href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${loc.latitude},${loc.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-4 py-2 mt-2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 text-xs font-bold uppercase tracking-wider rounded-lg transition-colors border border-blue-500/30 w-full justify-center"
+                  >
+                    <MapPin className="w-3 h-3" />
+                    Prozkoumat ve Street View
+                  </a>
                 </div>
               </div>
             </div>

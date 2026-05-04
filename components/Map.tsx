@@ -39,6 +39,7 @@ export interface Location {
   country: string;
   what_happens_here: string;
   what_hero_sees: string;
+  interesting_fact?: string;
   latitude: number;
   longitude: number;
 }
@@ -95,6 +96,22 @@ export default function Map({ locations }: MapProps) {
                     <strong className="text-purple-400 font-semibold block text-xs uppercase tracking-wider mb-1">Co vidí</strong>
                     {loc.what_hero_sees}
                   </p>
+                  {loc.interesting_fact && (
+                    <p className="text-sm text-gray-300 leading-relaxed bg-white/5 p-2 rounded border border-white/5">
+                      <strong className="text-yellow-400 font-semibold block text-xs uppercase tracking-wider mb-1">Zajímavost</strong>
+                      {loc.interesting_fact}
+                    </p>
+                  )}
+                </div>
+                <div className="mt-3 pt-3 border-t border-white/10">
+                  <a 
+                    href={`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${loc.latitude},${loc.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-wider rounded transition-colors"
+                  >
+                    🚶‍♂️ Otevřít ve Street View
+                  </a>
                 </div>
               </div>
             </Popup>

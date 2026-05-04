@@ -38,24 +38,29 @@ export async function POST(req: Request) {
             type: Type.STRING,
             description: "Krátký popis toho, co zde hlavní hrdina vidí nebo objevuje"
           },
+          interesting_fact: {
+            type: Type.STRING,
+            description: "Jedna velmi zajímavá, méně známá historická, kulturní nebo literární zajímavost o tomto místě ve vztahu k příběhu (1-2 věty)."
+          },
           latitude: {
             type: Type.NUMBER,
-            description: "Odhadovaná zeměpisná šířka (např. 48.8606 pro Louvre)"
+            description: "Přesná odhadovaná zeměpisná šířka (např. 48.8606 pro Louvre)"
           },
           longitude: {
             type: Type.NUMBER,
-            description: "Odhadovaná zeměpisná délka (např. 2.3376 pro Louvre)"
+            description: "Přesná odhadovaná zeměpisná délka (např. 2.3376 pro Louvre)"
           }
         },
-        required: ["location_name", "country", "what_happens_here", "what_hero_sees", "latitude", "longitude"]
+        required: ["location_name", "country", "what_happens_here", "what_hero_sees", "interesting_fact", "latitude", "longitude"]
       }
     };
 
     const prompt = `Jsi literární geograf. Analyzuj následující knihu nebo sérii: "${query}". 
 Vypiš chronologicky všechny klíčové reálné geografické lokace, kterými hlavní hrdina prochází.
+U každé lokace uveď co nejpřesnější GPS souřadnice (aby fungovalo vyhledávání ve Street View).
 Pokud se kniha odehrává na fiktivním místě (např. Pán Prstenů, Harry Potter - Bradavice), pokus se buď identifikovat reálná místa natáčení, nebo reálné inspirace, a pokud to nejde, vymysli přibližné (byť fiktivní) souřadnice na Zemi, aby se to dalo vykreslit na mapu, a do popisu uveď, že jde o fiktivní místo.
 
-Vrať seznam míst ve stanoveném JSON formátu.`;
+Vrať seznam míst ve stanoveném JSON formátu. Ke každému místu navíc uveď zajímavý historický nebo literární fakt (položka interesting_fact).`;
 
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
