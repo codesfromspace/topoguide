@@ -3,19 +3,36 @@
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { useEffect } from 'react';
 
-// Fix for default marker icons in Next.js
-const icon = L.icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  tooltipAnchor: [16, -28],
-  shadowSize: [41, 41]
-});
+// Create a custom modern glowing icon
+const createCustomIcon = (index: number) => {
+  return L.divIcon({
+    className: 'custom-icon',
+    html: `
+      <div style="
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        width: 30px; 
+        height: 30px; 
+        border-radius: 50%; 
+        border: 2px solid rgba(255,255,255,0.8);
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+        transform: translateY(-15px);
+      ">
+        ${index + 1}
+      </div>
+    `,
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+    popupAnchor: [0, -30],
+  });
+};
+
 
 export interface Location {
   location_name: string;
@@ -40,34 +57,45 @@ export default function Map({ locations }: MapProps) {
   const path: [number, number][] = locations.map(loc => [loc.latitude, loc.longitude]);
 
   return (
-    <div className="h-full w-full rounded-xl overflow-hidden shadow-lg border border-neutral-200 dark:border-neutral-800">
+    <div className="h-full w-full rounded-2xl overflow-hidden glass-panel">
       <MapContainer 
         center={defaultCenter} 
         zoom={locations.length > 0 ? 5 : 4} 
-        style={{ height: '100%', width: '100%' }}
+        style={{ height: '100%', width: '100%', background: 'transparent' }}
+        zoomControl={false}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
         />
         
         {locations.map((loc, index) => (
           <Marker 
             key={`${loc.location_name}-${index}`} 
             position={[loc.latitude, loc.longitude]}
-            icon={icon}
+            icon={createCustomIcon(index)}
           >
             <Popup>
-              <div className="max-w-[250px]">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="flex items-center justify-center bg-blue-600 text-white w-5 h-5 rounded-full text-xs font-bold">
+              <div className="max-w-[260px]">
+                <div className="flex items-center gap-3 mb-3 border-b border-white/10 pb-2">
+                  <span className="flex items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 text-white w-6 h-6 rounded-full text-xs font-bold shadow-lg shadow-blue-500/30">
                     {index + 1}
                   </span>
-                  <strong className="text-base text-gray-900">{loc.location_name}</strong>
+                  <div>
+                    <strong className="text-base text-gray-100 block leading-tight">{loc.location_name}</strong>
+                    <span className="text-xs text-gray-400">{loc.country}</span>
+                  </div>
                 </div>
-                <div className="text-sm text-gray-500 mb-2">{loc.country}</div>
-                <p className="text-sm text-gray-800 mb-2"><strong>Děj:</strong> {loc.what_happens_here}</p>
-                <p className="text-sm text-gray-800"><strong>Co vidí:</strong> {loc.what_hero_sees}</p>
+                <div className="space-y-2">
+                  <p className="text-sm text-gray-300 leading-relaxed">
+                    <strong className="text-blue-400 font-semibold block text-xs uppercase tracking-wider mb-1">Děj</strong>
+                    {loc.what_happens_here}
+                  </p>
+                  <p className="text-sm text-gray-300 leading-relaxed">
+                    <strong className="text-purple-400 font-semibold block text-xs uppercase tracking-wider mb-1">Co vidí</strong>
+                    {loc.what_hero_sees}
+                  </p>
+                </div>
               </div>
             </Popup>
           </Marker>
@@ -76,10 +104,10 @@ export default function Map({ locations }: MapProps) {
         {locations.length > 1 && (
           <Polyline 
             positions={path} 
-            color="#3b82f6" 
+            color="#60a5fa" 
             weight={3} 
-            opacity={0.7} 
-            dashArray="10, 10" 
+            opacity={0.6} 
+            dashArray="8, 8" 
           />
         )}
       </MapContainer>
